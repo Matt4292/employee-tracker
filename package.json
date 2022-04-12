@@ -18,6 +18,8 @@
   },
   "homepage": "https://github.com/Matt4292/employee-tracker#readme",
   "dependencies": {
-    "inquirer": "^8.2.2"
+    "console.table": "^0.10.0",
+    "inquirer": "^8.2.2",
+    "mysql2": "^2.3.3"
   }
 }

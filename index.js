@@ -1,6 +1,8 @@
 // required packages
 const inquirer = require("inquirer");
-const fs = require("fs");
+const mysql = require("mysql2");
+const cTable = require("console.table")
+
 const { listenerCount } = require("process");
 const { resolve } = require("path");
 
@@ -14,7 +16,7 @@ inquirer.prompt([
 ]).then(response => {
   switch(response.firstQuestion) {
     case "View all departments":
-      console.log("view departments")
+      viewDepartment();
       break;
     case "View all roles":
       console.log("view roles")
@@ -36,3 +38,18 @@ inquirer.prompt([
       break;
   }
 })
+
+function viewDepartment(){
+  console.log("view departments asdf")
+  db.query('')
+}
+
+const db = mysql.createConnection(
+  {
+    host: "localhost",
+    user: "root",
+    password: "Password",
+    database: "employee_db"
+  },
+  console.log("connected")
+);

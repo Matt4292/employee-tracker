@@ -1,17 +1,17 @@
 INSERT INTO department
-VALUES (1, "Engineering"),
-  (2, "Finance"),
-  (3, "Legal"),
-  (4, "Sales");
+VALUES  (id, "Engineering"),
+        (id, "Finance"),
+        (id, "Legal"),
+        (id, "Sales");
 
 INSERT INTO role
-VALUES (1, "Engineer", 100000, 1),
-  (2, "Accountant", 70000, 2),
-  (3, "Lawyer", 140000, 3),
-  (4, "Salesman", 60000, 4);
+VALUES  (id, "Engineer", 100000, 1),
+        (id, "Accountant", 70000, 2),
+        (id, "Lawyer", 140000, 3),
+        (id, "Salesman", 60000, 4);
 
 INSERT INTO employee
-VALUES (1, "Matt", "Jackson", 1, 1),
-  (2, "John", "Doe", 2, 2);
+VALUES  (id, "Matt", "Jackson", 1, 1),
+        (id, "John", "Doe", 2, 2);
 
 

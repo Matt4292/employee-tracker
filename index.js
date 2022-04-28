@@ -35,7 +35,7 @@ function init (){
         addEmployee()
         break;
       case "Update employee role":
-        console.log("update employee")
+        updateEmployee()
         break;
     }
   })
@@ -81,7 +81,7 @@ function addRole(){
   ])
   .then( response => {
     const responses = response;
-    db.query(`SELECT * FROM employee_db.department`, function(err, res) {
+    db.query(`SELECT * FROM department`, function(err, res) {
       if (err) console.log(err);
       inquirer.prompt(
         {
@@ -91,7 +91,7 @@ function addRole(){
           choices: res
         }
       ).then( response => {
-        db.query(`SELECT * FROM employee_db.department WHERE name = '${response.department}'`, function(err, res) {
+        db.query(`SELECT * FROM department WHERE name = '${response.department}'`, function(err, res) {
           pushRole(responses, res[0].id)
           function pushRole(responses, responseId) {
             db.query(`INSERT INTO role VALUES (id, '${responses.roleName}', ${responses.salary}, ${responseId})`, function (err, res) {
@@ -120,7 +120,7 @@ function addEmployee() {
   ])
   .then( response => {
     const responses = response;
-    db.query('SELECT *, id AS value FROM employee_db.role', function(err, res) {
+    db.query('SELECT *, id AS value FROM role', function(err, res) {
       if (err) console.log(err);
       inquirer.prompt(
         {
@@ -132,7 +132,7 @@ function addEmployee() {
       )
       .then( response => {
         const roleId = response;
-        db.query('SELECT *, CONCAT(first_name, " ", last_name) AS name, id AS value FROM employee_db.employee', function(err, res) {
+        db.query('SELECT *, CONCAT(first_name, " ", last_name) AS name, id AS value FROM employee', function(err, res) {
           if (err) console.log(err);
           inquirer.prompt(
             {
@@ -143,7 +143,7 @@ function addEmployee() {
             }
           )
           .then( response => {
-            db.query(`SELECT * FROM employee_db.role WHERE name = '${response.roleId}'`, function(err, res) {
+            db.query(`SELECT * FROM role WHERE name = '${response.roleId}'`, function(err, res) {
               db.query(`INSERT INTO employee VALUES (id, '${responses.firstName}', '${responses.lastName}', ${roleId.roleId}, '${response.manager}')`, function(err, res) {
                 if (err) console.log(err);
                 view("employee");
@@ -155,6 +155,41 @@ function addEmployee() {
     })
   })  
 };
+
+function updateEmployee() {
+  db.query('SELECT *, CONCAT(first_name, " ", last_name) AS name, id AS value FROM employee', function(err, res) {
+    if (err) console.log(err)
+    console.log(res)
+    inquirer.prompt(
+      {
+        name: "employee",
+        type: "list",
+        message: "Which employee do you want to update?",
+        choices: res
+      }
+    )
+    .then( response => {
+      const employeeName = response;
+      db.query('SELECT *, id AS value FROM role', function (err, res) {
+        if (err) console.log(err);
+        inquirer.prompt(
+          {
+            name: "newRole",
+            type: "list",
+            message: "What is this employees new role?",
+            choices: res
+          }
+        )
+        .then( response => {
+          db.query(`UPDATE employee SET role_id = ${response.newRole} WHERE id = ${employeeName.employee}`)
+          console.log(employeeName)
+          console.log(response)
+        })
+      })
+    })
+  })
+
+}
 
 init();
 
